@@ -16,11 +16,14 @@ set(HEADERS
         include/${target}/tarjan/tarjan_treap.h
         include/${target}/tarjan/tarjan_hollow.h
         include/${target}/gabow/gabow.h
+        include/${target}/kruskal/kruskal.h
+        include/${target}/edmonds/edmonds.h
         include/${target}/gabow/active_forest.h
         include/${target}/others/felerius.h
         include/${target}/others/spaghetti.h
         include/${target}/others/yosupo.h
         include/${target}/utils/utils.h
+
 )
 
 set(SOURCES
