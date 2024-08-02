@@ -14,6 +14,8 @@
 #include <arbok/others/felerius.h>
 #include <arbok/others/spaghetti.h>
 #include <arbok/others/yosupo.h>
+#include <arbok/kruskal/kruskal.h>
+#include <arbok/edmonds/edmonds.h>
 #include <arbok/tarjan/tarjan_set.h>
 #include <arbok/tarjan/tarjan_pq.h>
 #include <arbok/tarjan/tarjan_matrix.h>
@@ -203,6 +205,8 @@ int main(int argc, char* argv[]) {
     auto algo = args["algo"];
     if(algo=="set") run<arbok::TarjanSet>(args);
     else if(algo=="matrix") run<arbok::TarjanMatrix>(args);
+    else if(algo=="kruskal") run<arbok::Kruskal>(args);
+    else if(algo=="edmonds") run<arbok::Edmonds>(args);
     else if(algo=="pq") run<arbok::TarjanPQ>(args);
     else if(algo=="treap") run<arbok::TarjanTreap>(args);
     else if(algo=="hollow") run<arbok::TarjanHollow>(args);
