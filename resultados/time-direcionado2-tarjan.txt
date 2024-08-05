@@ -1,0 +1,24 @@
+PARAMETER: 
+csv not given, default assumed ()
+outfile not given, default assumed ()
+	algo: kruskal
+	check: 0
+	csv: 
+	giantCC: 0
+	input: ./data/grafo2_direcionado_tarjan.wsoap
+	outfile: 
+	root: 0
+load graph finished in 9 ms
+n      =10000
+m      =40000
+check weights finished in 0 ms
+construct algo DS finished in 0 ms
+run algo finished in 2 ms
+reconstruct finished in 0 ms
+destroy finished in 0 ms
+total finished in 3 ms
+n      =10000
+m      =40000
+w      =150334
+w%1e9  =150334
+w/1e9  =0
