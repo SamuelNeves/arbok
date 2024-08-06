@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <fstream>
 #include <random>
@@ -34,7 +33,7 @@ struct Timer {
     void start(const string& desc) { last = desc; begin[desc] = chrono::steady_clock::now(); }
     auto stop(const string& desc) {
         auto end = chrono::steady_clock::now();
-        auto dur = chrono::duration_cast<chrono::milliseconds>(end-begin[desc]).count();
+        auto dur = chrono::duration_cast<chrono::milliseconds>(end - begin[desc]).count();
         cout << desc << " finished in " << dur << " ms" << endl;
         return dur;
     }
@@ -66,7 +65,7 @@ void run(map<string, string>& args) {
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
 
-    if(args["giantCC"]=="1") {
+    if (args["giantCC"] == "1") {
         t.start("find giant cc");
         graph = giantCC(graph);
         t.stop("find giant cc");
@@ -75,22 +74,23 @@ void run(map<string, string>& args) {
         cout << "m      =" << size(graph.edges) << endl;
     }
 
-    if(!graph.weighted) {
+    if (!graph.weighted) {
         t.start("add random weights");
         mt19937 gen(1337);
         uniform_int_distribution dist(1, 20);
         graph.weighted = true;
-        for(auto& [u,v,w] : graph.edges)
+        for (auto& [u, v, w] : graph.edges)
             w = dist(gen);
         t.stop("add random weights");
-    } else {
+    }
+    else {
         t.start("check weights"); // this is done so that INF does not overflow int
         int mn_weight = 0;
-        for(auto& [u,v,w] : graph.edges)
-            mn_weight = min(mn_weight,w);
-        if(mn_weight<0) {
+        for (auto& [u, v, w] : graph.edges)
+            mn_weight = min(mn_weight, w);
+        if (mn_weight < 0) {
             long long mx_weight = 0;
-            for(auto& [u,v,w] : graph.edges) {
+            for (auto& [u, v, w] : graph.edges) {
                 w -= mn_weight;
                 mx_weight = max<long long>(mx_weight, w);
             }
@@ -102,13 +102,14 @@ void run(map<string, string>& args) {
     const int INF = 1e9;
 
     int root = graph.n;
-    if(args["root"].empty()) {
+    if (args["root"].empty()) {
         t.start("add supernode");
         for (int i = 0; i < graph.n; ++i)
-            graph.edges.push_back({root, i, INF});
+            graph.edges.push_back({ root, i, INF });
         graph.n++;
         t.stop("add supernode");
-    } else {
+    }
+    else {
         root = stoi(args["root"]);
     }
 
@@ -119,7 +120,7 @@ void run(map<string, string>& args) {
     {
         t.start("construct algo DS");
         Algo alg(graph.n, (int)graph.edges.size());
-        for (auto e: graph.edges) alg.create_edge(e.from, e.to, e.weight);
+        for (auto e : graph.edges) alg.create_edge(e.from, e.to, e.weight);
         con = t.stop();
 
         t.start("run algo");
@@ -135,14 +136,14 @@ void run(map<string, string>& args) {
     auto del = t.stop();
     t.stop("total");
 
-    if(args["check"]!="0") {
+    if (args["check"] != "0") {
         t.start("validate");
-        if(!arbok::isArborescence(graph, arbo, res, root))
+        if (!arbok::isArborescence(graph, arbo, res, root))
             cout << "output no valid arborescence" << endl, exit(1);
         t.stop();
     }
 
-    if(!empty(args["csv"])) {
+    if (!empty(args["csv"])) {
         ofstream ouf(args["csv"], ios::app);
         ouf << args["input"]
             << ',' << graph.n
@@ -160,12 +161,18 @@ void run(map<string, string>& args) {
     cout << "n      =" << graph.n << endl;
     cout << "m      =" << size(graph.edges) << endl;
     cout << "w      =" << res << endl;
-    cout << "w%1e9  =" << res%int(1e9) << endl;
-    cout << "w/1e9  =" << res/1'000'000'000 << endl;
+    cout << "w%1e9  =" << res % int(1e9) << endl;
+    cout << "w/1e9  =" << res / 1'000'000'000 << endl;
 
-    if(!empty(args["outfile"])) {
+    // Print edges and weights of the MST
+    cout << "Edges and weights of the MST:" << endl;
+    for (auto e : arbo) {
+        cout << "Edge from " << graph.edges[e].from << " to " << graph.edges[e].to << " with weight " << graph.edges[e].weight << endl;
+    }
+
+    if (!empty(args["outfile"])) {
         ofstream out(args["outfile"]);
-        for(auto e : arbo) out << e << '\n';
+        for (auto e : arbo) out << e << '\n';
     }
 }
 
@@ -174,14 +181,14 @@ int main(int argc, char* argv[]) {
 
 #ifdef __linux__
     rlimit rl;
-    getrlimit(RLIMIT_STACK,&rl);
+    getrlimit(RLIMIT_STACK, &rl);
     rl.rlim_cur = 4 * 1024L * 1024L * 1024L; // 4GB
-    setrlimit(RLIMIT_STACK,&rl);
+    setrlimit(RLIMIT_STACK, &rl);
 #else
     cout << "WARNING: on non-linux targets stack size might be too small for yosupo solver on very large instances (>10kk edges)" << endl;
 #endif
 
-    map<string,string> defaults{
+    map<string, string> defaults{
             {"input",   DATA_DIR + "konect/slashdot-zoo.soap"s},
             {"csv",     ""},
             {"algo",    "pq"},
@@ -192,32 +199,29 @@ int main(int argc, char* argv[]) {
     };
     auto args = parseArgs(argc, argv);
     cout << "PARAMETER: " << endl;
-    for(auto [key,val] : defaults) {
-        if(args.contains(key)) continue;
+    for (auto [key, val] : defaults) {
+        if (args.contains(key)) continue;
         cout << key << " not given, default assumed (" << val << ")" << endl;
         args[key] = val;
     }
-    for(auto [key,val] : args) {
-        if(!defaults.contains(key)) cerr << "ERROR: unrecognized param: " << key, exit(1);
+    for (auto [key, val] : args) {
+        if (!defaults.contains(key)) cerr << "ERROR: unrecognized param: " << key, exit(1);
         cout << '\t' << key << ": " << val << endl;
     }
 
     auto algo = args["algo"];
-    if(algo=="set") run<arbok::TarjanSet>(args);
-    else if(algo=="matrix") run<arbok::TarjanMatrix>(args);
-    else if(algo=="kruskal") run<arbok::Kruskal>(args);
-    else if(algo=="edmonds") run<arbok::Edmonds>(args);
-    else if(algo=="pq") run<arbok::TarjanPQ>(args);
-    else if(algo=="treap") run<arbok::TarjanTreap>(args);
-    else if(algo=="hollow") run<arbok::TarjanHollow>(args);
-    else if(algo=="gabow") run<arbok::Gabow>(args);
-    else if(algo=="lemon") run<arbok::Lemon>(args);
-    else if(algo=="atofigh") run<arbok::Atofigh>(args);
-    else if(algo=="felerius") run<arbok::Felerius>(args);
-    else if(algo=="spaghetti") run<arbok::Spaghetti>(args);
-    else if(algo=="yosupo") run<arbok::Yosupo>(args);
-    else cerr << "invalid algo: " << algo, exit(1);
-
-    return 0;
+    if (algo == "set") run<arbok::TarjanSet>(args);
+    else if (algo == "matrix") run<arbok::TarjanMatrix>(args);
+    else if (algo == "kruskal") run<arbok::Kruskal>(args);
+    else if (algo == "edmonds") run<arbok::Edmonds>(args);
+    else if (algo == "pq") run<arbok::TarjanPQ>(args);
+    else if (algo == "treap") run<arbok::TarjanTreap>(args);
+    else if (algo == "hollow") run<arbok::TarjanHollow>(args);
+    else if (algo == "gabow") run<arbok::Gabow>(args);
+    else if (algo == "lemon") run<arbok::Lemon>(args);
+    else if (algo == "atofigh") run<arbok::Atofigh>(args);
+    else if (algo == "felerius") run<arbok::Felerius>(args);
+    else if (algo == "spaghetti") run<arbok::Spaghetti>(args);
+    else if (algo == "yosupo") run<arbok::Yosupo>(args);
+    else cerr << "ERROR: unrecognized algo: " << algo, exit(1);
 }
-
