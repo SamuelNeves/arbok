@@ -167,7 +167,7 @@ void run(map<string, string>& args) {
     // Print edges and weights of the MST
     cout << "Edges and weights of the MST:" << endl;
     for (auto e : arbo) {
-        cout << "Edge from " << graph.edges[e].from << " to " << graph.edges[e].to << " with weight " << graph.edges[e].weight << endl;
+        cout <<  graph.edges[e].from << " " << graph.edges[e].to << " " << graph.edges[e].weight << endl;
     }
 
     if (!empty(args["outfile"])) {
