@@ -1,0 +1,74 @@
+PARAMETER: 
+csv not given, default assumed ()
+outfile not given, default assumed ()
+	algo: pq
+	check: 0
+	csv: 
+	giantCC: 0
+	input: ./data/grafo1_direcionado_tarjan.wsoap
+	outfile: 
+	root: 0
+load graph finished in 0 ms
+n      =50
+m      =500
+check weights finished in 0 ms
+construct algo DS finished in 0 ms
+run algo finished in 0 ms
+reconstruct finished in 0 ms
+destroy finished in 0 ms
+total finished in 0 ms
+n      =50
+m      =500
+w      =507
+w%1e9  =507
+w/1e9  =0
+Edges and weights of the MST:
+0 31 17
+31 29 7
+29 8 9
+45 46 15
+27 33 30
+11 49 1
+8 48 11
+46 47 1
+33 45 15
+22 44 19
+15 43 8
+5 42 13
+40 41 9
+24 40 26
+4 39 19
+46 38 3
+48 37 15
+6 36 4
+39 35 2
+27 34 7
+30 32 4
+18 30 10
+18 28 6
+22 27 22
+1 26 1
+19 25 6
+45 24 6
+42 23 6
+8 22 1
+11 21 14
+40 20 12
+14 19 5
+33 18 23
+49 17 29
+22 16 4
+28 15 1
+49 14 2
+45 13 16
+11 12 12
+10 11 6
+41 10 7
+33 9 2
+39 7 1
+19 6 8
+46 5 10
+3 4 10
+46 3 32
+1 2 10
+3 1 10
