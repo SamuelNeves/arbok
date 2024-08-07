@@ -52,13 +52,6 @@ int main() {
     MDST(n);
 
     cout << "-------------- Algoritmo de Edmonds --------------" << endl;
-    cout << "-------------- Árvore geradora mínima: -----------" << endl;
-    double sum = 0;
-    for (int i = 1; i < n; i++) {
-        Edge* edge = nodes[i]->edgeInMDST;
-        sum += edge->w;
-        cout << edge->u << " " << edge->v << " " << edge->w << endl;
-    }
     cout << "-------------- Soma dos pesos: " << sum << " -----------" << endl;
 
     cout << "-------------- Tempo de execução -----------------" << endl;
